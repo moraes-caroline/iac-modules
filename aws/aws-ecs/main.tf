@@ -92,6 +92,26 @@ resource "aws_ecs_task_definition" "this" {
     }
   ])
 }
+resource "aws_iam_role_policy" "ecr_access" {
+  name = "${var.service_name}-ecr-policy"
+  role = aws_iam_role.ecs_task_execution.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ecr:GetAuthorizationToken",
+          "ecr:BatchCheckLayerAvailability",
+          "ecr:GetDownloadUrlForLayer",
+          "ecr:BatchGetImage"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
 
 # ✅ Load Balancer
 resource "aws_lb" "this" {
