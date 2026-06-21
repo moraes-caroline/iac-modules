@@ -22,7 +22,24 @@ variable "environment" {
   description = "The environment for resource deployment (e.g., 'dev', 'hmg', 'prd')."
   type        = string
 }
+
+#--------------------- Token appconfig ---------------------#
  
+variable "enable_github_variables" {
+  type = bool
+}
+
+variable "github_token" {
+  type = string
+}
+
+variable "appconfig_applications" {
+  type = any
+}
+
+variable "tags" {
+  type = map(string)
+}
 #--------------------- IAM Role ---------------------#
  
 variable "iam_role_name" {
