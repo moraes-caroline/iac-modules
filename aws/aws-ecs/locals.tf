@@ -1,29 +1,8 @@
-variable "cluster_name" {
-  type = string
-}
+locals {
+  default_tags = {
+    ManagedBy = "Terraform"
+    Project   = "application1"
+  }
 
-variable "service_name" {
-  type = string
-}
-
-variable "container_image" {
-  type = string
-}
-
-variable "container_port" {
-  type    = number
-  default = 5000
-}
-
-variable "cpu" {
-  default = "256"
-}
-
-variable "memory" {
-  default = "512"
-}
-
-variable "tags" {
-  type    = map(string)
-  default = {}
+  tags = merge(local.default_tags, var.tags)
 }
