@@ -37,9 +37,6 @@ variable "appconfig_applications" {
   type = any
 }
 
-variable "tags" {
-  type = map(string)
-}
 #--------------------- IAM Role ---------------------#
  
 variable "iam_role_name" {
