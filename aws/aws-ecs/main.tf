@@ -57,12 +57,11 @@ resource "aws_iam_role" "ecs_task_execution" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "this" {
-  role       = aws_iam_role.ecs_task_execution.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+resource "aws_cloudwatch_log_group" "ecs" {
+  name              = "/ecs/flask-app"
+  retention_in_days = 7
 }
 
-# ✅ Task Definition
 resource "aws_ecs_task_definition" "this" {
   family                   = var.service_name
   requires_compatibilities = ["FARGATE"]
@@ -76,9 +75,20 @@ resource "aws_ecs_task_definition" "this" {
       name  = var.service_name
       image = var.container_image
 
-      portMappings = [{
-        containerPort = var.container_port
-      }]
+      portMappings = [
+        {
+          containerPort = var.container_port
+        }
+      ]
+
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/flask-app"
+          awslogs-region        = "sa-east-1"
+          awslogs-stream-prefix = "ecs"
+        }
+      }
     }
   ])
 }
