@@ -43,6 +43,10 @@ resource "aws_iam_role_policy_attachment" "appconfig" {
   role       = aws_iam_role.this.name
   policy_arn = aws_iam_policy.appconfig[0].arn
 }
+resource "aws_iam_role_policy_attachment" "ecs_execution" {
+  role       = aws_iam_role.this.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
  
 #--------------------- Secrets Manager Policy ---------------------#
  
